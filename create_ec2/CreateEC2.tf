@@ -59,7 +59,7 @@ resource "aws_security_group" "ubuntu" {
 
 resource "aws_instance" "ubuntu" {
   key_name      = aws_key_pair.ubuntu.key_name
-  ami           = "ami-098828924dc89ea4a"
+  ami           = "ami-005383956f2e5fb96"
   instance_type = "t2.micro"
 
   tags = {
