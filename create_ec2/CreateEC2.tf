@@ -84,23 +84,6 @@ resource "aws_instance" "ubuntu" {
     volume_size = 30
   }
 
-  provisioner "remote-exec" {
-    inline = [
-	"sudo su -",
-	"sudo apt update",
-	"sudo apt install vsftpd -y",
-	"sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig",
-	"sudo ufw allow 20:21/tcp",
-	"sudo ufw allow 990/tcp",
-	"sudo ufw allow 35000:40000/tcp",
-	"sudo server="write_enable=YES"; sed -i "/^#$server/ c$server" /etc/vsftpd.conf",
-	"sudo useradd ftpuser -m ",
-	"sudo chpasswd << 'END'
-	ftpuser:eohA3000!
-	END",
-	"sudo systemctl restart vsftpd",
-    ]
-  }
 
 }
 
