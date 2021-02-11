@@ -61,6 +61,7 @@ resource "aws_instance" "ubuntu" {
   key_name      = aws_key_pair.ubuntu.key_name
   ami           = "ami-005383956f2e5fb96"
   instance_type = "t2.micro"
+  user_data = "${file("userdata.txt")}"
 
   tags = {
     Name = "ubuntu"
@@ -82,6 +83,25 @@ resource "aws_instance" "ubuntu" {
     volume_type = "gp2"
     volume_size = 30
   }
+
+  provisioner "remote-exec" {
+    inline = [
+	"sudo su -",
+	"sudo apt update",
+	"sudo apt install vsftpd -y",
+	"sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig",
+	"sudo ufw allow 20:21/tcp",
+	"sudo ufw allow 990/tcp",
+	"sudo ufw allow 35000:40000/tcp",
+	"sudo server="write_enable=YES"; sed -i "/^#$server/ c$server" /etc/vsftpd.conf",
+	"sudo useradd ftpuser -m ",
+	"sudo chpasswd << 'END'
+	ftpuser:eohA3000!
+	END",
+	"sudo systemctl restart vsftpd",
+    ]
+  }
+
 }
 
 resource "aws_eip" "ubuntu" {
