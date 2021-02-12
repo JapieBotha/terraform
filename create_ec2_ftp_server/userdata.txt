@@ -15,5 +15,6 @@ useradd ftpuser -m
 chpasswd << 'END'
 ftpuser:eohA3000!
 END
+mkdir /home/ftpuser/newreport/
 systemctl restart vsftpd
 
