@@ -61,6 +61,7 @@ resource "aws_instance" "ubuntu" {
   key_name      = aws_key_pair.ubuntu.key_name
   ami           = "ami-005383956f2e5fb96"
   instance_type = "t2.micro"
+  user_data = "${file("userdata.txt")}"
 
   tags = {
     Name = "ubuntu"
@@ -82,6 +83,8 @@ resource "aws_instance" "ubuntu" {
     volume_type = "gp2"
     volume_size = 30
   }
+
+
 }
 
 resource "aws_eip" "ubuntu" {

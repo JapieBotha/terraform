@@ -1,0 +1,14 @@
+#!/bin/bash
+sudo su -
+apt update
+apt install vsftpd -y
+cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
+ufw allow 20:21/tcp
+ufw allow 990/tcp
+ufw allow 35000:40000/tcp
+server="write_enable=YES"; sed -i "/^#$server/ c$server" /etc/vsftpd.conf
+useradd ftpuser -m 
+chpasswd << 'END'
+ftpuser:eohA3000!
+END
+systemctl restart vsftpd
