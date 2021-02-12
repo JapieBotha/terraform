@@ -2,13 +2,18 @@
 sudo su -
 apt update
 apt install vsftpd -y
+apt install git -y
+cd /
+git clone https://github.com/JapieBotha/terraform
 cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
+cp -f /terraform/create_ec2_ftp_server/config.file /etc/vsftpd.conf
 ufw allow 20:21/tcp
 ufw allow 990/tcp
 ufw allow 35000:40000/tcp
-server="write_enable=YES"; sed -i "/^#$server/ c$server" /etc/vsftpd.conf
+#server="write_enable=YES"; sed -i "/^#$server/ c$server" /etc/vsftpd.conf
 useradd ftpuser -m 
 chpasswd << 'END'
 ftpuser:eohA3000!
 END
 systemctl restart vsftpd
+
