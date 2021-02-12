@@ -1,0 +1,6 @@
+Commands:
+Teraform
+terraform init
+terraform plan -output ./japie
+terraform apply
+terraform destroy
